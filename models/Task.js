@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+// 📌 Définition du schéma de la tâche (Task Schema)
 const taskSchema = new mongoose.Schema({
   title: {
     type: String,
@@ -27,4 +28,5 @@ const taskSchema = new mongoose.Schema({
   }
 }, { timestamps: true });
 
+// 📌 Exportation du modèle pour l'utiliser dans les autres fichiers
 module.exports = mongoose.model('Task', taskSchema);

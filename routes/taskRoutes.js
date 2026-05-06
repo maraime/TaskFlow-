@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Task = require('../models/Task');
 
-// 1. إنشاء مهمة جديدة (Create)
+// 📌 POST - Ajouter une nouvelle tâche
 router.post('/', async (req, res) => {
   try {
     const newTask = new Task(req.body);
@@ -13,7 +13,7 @@ router.post('/', async (req, res) => {
   }
 });
 
-// 2. جلب جميع مهام مشروع معين (Read) - مطلوب في دفتر التحملات
+// 📌 GET - Récupérer toutes les tâches d'un projet spécifique
 router.get('/project/:projectId', async (req, res) => {
   try {
     const tasks = await Task.find({ project: req.params.projectId });
@@ -23,23 +23,56 @@ router.get('/project/:projectId', async (req, res) => {
   }
 });
 
-// 3. تعديل مهمة (Update)
+// 📌 PUT - Mettre à jour une tâche
 router.put('/:id', async (req, res) => {
   try {
     const updatedTask = await Task.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    res.json(updatedTask);
+    if (updatedTask) {
+      res.json(updatedTask);
+    } else {
+      res.status(404).json({ message: "Tâche non trouvée" });
+    }
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
 });
 
-// 4. حذف مهمة (Delete)
+// 📌 DELETE - Supprimer une tâche
 router.delete('/:id', async (req, res) => {
   try {
-    await Task.findByIdAndDelete(req.params.id);
-    res.json({ message: 'Tâche supprimée avec succès' });
+    const task = await Task.findByIdAndDelete(req.params.id);
+    if (task) {
+      res.json({ message: "Tâche supprimée avec succès" });
+    } else {
+      res.status(404).json({ message: "Tâche non trouvée" });
+    }
   } catch (error) {
     res.status(500).json({ message: error.message });
+  }
+});
+
+// 📌 PATCH - Mettre à jour uniquement le statut d'une tâche
+router.patch('/:id/status', async (req, res) => {
+  try {
+    const { status } = req.body;
+    
+    if (!['à faire', 'en cours', 'terminé'].includes(status)) {
+      return res.status(400).json({ message: 'Statut invalide' });
+    }
+
+    const updatedTask = await Task.findByIdAndUpdate(
+      req.params.id,
+      { status },
+      { new: true }
+    );
+    
+    if (updatedTask) {
+      res.json(updatedTask);
+    } else {
+      res.status(404).json({ message: "Tâche non trouvée" });
+    }
+  } catch (error) {
+    res.status(400).json({ message: error.message });
   }
 });
 
