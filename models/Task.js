@@ -22,10 +22,11 @@ const taskSchema = new mongoose.Schema({
     ref: 'Project',
     required: true
   },
-  assignedTo: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User'
-  }
+ assignedTo: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User', 
+        required: false
+    }
 }, { timestamps: true });
 
 // 📌 Exportation du modèle pour l'utiliser dans les autres fichiers
