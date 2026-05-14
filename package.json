@@ -1,0 +1,27 @@
+{
+  "name": "taskflow-",
+  "version": "1.0.0",
+  "description": "TaskFlow est une application web de gestion de projets collaboratifs, inspirée d’outils comme Notion, Trello et Asana. Elle permet de créer, organiser et suivre des projets en équipe. Les utilisateurs peuvent ajouter des tâches, les assigner aux membres et suivre leur progression en temps réel.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maraime/TaskFlow-.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/maraime/TaskFlow-/issues"
+  },
+  "homepage": "https://github.com/maraime/TaskFlow-#readme",
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^9.6.1"
+  }
+}
