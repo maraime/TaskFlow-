@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>Testing API</h1>
+
+<script>
+async function test() {
+  await fetch("http://localhost:3000/api/auth/register", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      fullName: "Maryam",
+      email: "maryam@test.com",
+      password: "1234"
+    })
+  });
+
+  const res = await fetch("http://localhost:3000/api/auth/login", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      email: "maryam@test.com",
+      password: "1234"
+    })
+  });
+
+  const data = await res.json();
+
+  console.log("LOGIN:", data);
+  console.log("TOKEN:", data.token);
+}
+
+test();
+</script>
+
+</body>
+</html>
