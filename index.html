@@ -129,6 +129,38 @@
             localStorage.setItem(DRAFT_KEY, JSON.stringify(draft));
             console.log("✅ brouillon sauvegarde a " + DRAFT_KEY);
         }
+        // Restore draft
+        function restoreDraft() {
+            const saved = localStorage.getItem(DRAFT_KEY);
+            if (saved) {
+                const draft = JSON.parse(saved);
+                title.value = draft.title || '';
+                description.value = draft.description || '';
+                priority.value = draft.priority || 'moyenne';
+                status.value = draft.status || 'en cours';
+                draftAlert.style.display = 'none';
+                console.log('📂Restaure');
+            }
+        }
+        
+        // validate draft
+        function checkForDraft() {
+            if (localStorage.getItem(DRAFT_KEY)) {
+                draftAlert.style.display = 'block';
+                console.log('🔔 Brouillon existant');
+            }
+        }
+        
+        // Delete draft
+        function clearDraft() {
+            localStorage.removeItem(DRAFT_KEY);
+            draftAlert.style.display = 'none';
+            console.log('🗑️ le brouillon a ete supprime');
+        }
+        
+        // events
+        form.addEventListener('input', autoSave);
+        document.getElementById('restoreBtn').addEventListener('click', restoreDraft);
         
     
         
