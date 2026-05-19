@@ -16,7 +16,7 @@ router.post('/', async (req, res) => {
 // 📌 GET - Récupérer toutes les tâches d'un projet spécifique
 router.get('/project/:projectId', async (req, res) => {
   try {
-    const tasks = await Task.find({ project: req.params.projectId });
+    const tasks = await Task.find({ project: req.params.projectId }).populate('assignedTo');
     res.json(tasks);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -26,7 +26,7 @@ router.get('/project/:projectId', async (req, res) => {
 // 📌 PUT - Mettre à jour une tâche
 router.put('/:id', async (req, res) => {
   try {
-    const updatedTask = await Task.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    const updatedTask = await Task.findByIdAndUpdate(req.params.id, req.body, { new: true }).populate('assignedTo');
     if (updatedTask) {
       res.json(updatedTask);
     } else {
