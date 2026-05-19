@@ -1,0 +1,51 @@
+services:
+  # MongoDB Database
+  mongodb:
+    image: mongo:latest
+    container_name: taskflow_mongodb
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - taskflow_network
+
+  # Backend API
+  backend:
+    build: ./backend
+    container_name: taskflow_backend
+    restart: always
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mongodb
+    env_file:
+      - ./backend/.env
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    networks:
+      - taskflow_network
+
+  # Frontend React
+  frontend:
+    build: ./frontend
+    container_name: taskflow_frontend
+    restart: always
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    networks:
+      - taskflow_network
+
+volumes:
+  mongodb_data:
+
+networks:
+  taskflow_network:
+    driver: bridge
